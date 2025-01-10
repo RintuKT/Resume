@@ -1,0 +1,293 @@
+{% extends 'portfolio_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section position-relative bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-3">RINTU KT</h1>
+                <p class="lead mb-4">Python Developer | Scrum Master</p>
+                <p class="mb-4">Aspiring Python developer with expertise in building and optimizing E-commerce Web Applications</p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'portfolio_app:personal_detail' %}" class="btn btn-light btn-lg">View Details</a>
+                    <a href="#contact" class="btn btn-outline-light btn-lg">Contact Me</a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="{% static 'portfolio_app/images/profile.jpg' %}" alt="Profile" class="img-fluid rounded-circle profile-img" style="max-width: 300px;">
+            </div>
+        </div>
+    </div>
+    <div class="custom-shape-divider-bottom">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+        </svg>
+    </div>
+</div>
+
+<!-- Skills Section -->
+<section class="skills-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Technical Expertise</h2>
+        <div class="row g-4">
+            <!-- Python & Django -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center">
+                        <div class="icon-wrapper mb-3">
+                            <i class="fab fa-python fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="h5">Python & Django</h3>
+                        <ul class="list-unstyled text-muted">
+                            <li>Django Framework</li>
+                            <li>Django REST Framework</li>
+                            <li>Python Libraries</li>
+                            <li>API Development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Database -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center">
+                        <div class="icon-wrapper mb-3">
+                            <i class="fas fa-database fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="h5">Database</h3>
+                        <ul class="list-unstyled text-muted">
+                            <li>PostgreSQL</li>
+                            <li>MySQL</li>
+                            <li>Database Design</li>
+                            <li>Query Optimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Web Technologies -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-card">
+                    <div class="card-body text-center">
+                        <div class="icon-wrapper mb-3">
+                            <i class="fas fa-code fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="h5">Web Technologies</h3>
+                        <ul class="list-unstyled text-muted">
+                            <li>HTML5 & CSS3</li>
+                            <li>JavaScript</li>
+                            <li>Bootstrap</li>
+                            <li>RESTful APIs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Education Section -->
+<section class="education-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Education & Certifications</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="h5">Engineering | BTC CET</h3>
+                        <p class="text-muted mb-2">KTU University, Kerala, India | 2015-2019</p>
+                        <p class="mb-0">Bachelor's degree in Mechanical Engineering.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="h5">Python Programming Certification</h3>
+                        <p class="text-muted mb-2">Illinois Tech US | 08/2023-10/2024</p>
+                        <p class="mb-0">Advanced Python programming concepts and best practices.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="h5">Python Development Training</h3>
+                        <p class="text-muted mb-2">Entri Elevate | 08/2023-10/2024</p>
+                        <p class="mb-0">8 months intensive training on Python, Django, and front-end development.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Get In Touch</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <form id="contactForm" method="post" action="{% url 'portfolio_app:contact' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Hero Section Styles */
+    .hero-section {
+        overflow: hidden;
+    }
+    .custom-shape-divider-bottom {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+    }
+    .custom-shape-divider-bottom svg {
+        position: relative;
+        display: block;
+        width: calc(100% + 1.3px);
+        height: 60px;
+    }
+    .custom-shape-divider-bottom .shape-fill {
+        fill: #ffffff;
+    }
+    .profile-img {
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        transition: transform 0.3s ease;
+    }
+    .profile-img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Skills Section Styles */
+    .hover-card {
+        transition: transform 0.3s ease;
+    }
+    .hover-card:hover {
+        transform: translateY(-10px);
+    }
+    .icon-wrapper {
+        height: 80px;
+        width: 80px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(var(--bs-primary-rgb), 0.1);
+    }
+
+    /* Timeline Styles */
+    .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .timeline-item {
+        margin-bottom: 2rem;
+        position: relative;
+        padding-left: 2rem;
+    }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background: var(--bs-primary);
+    }
+    .timeline-item::after {
+        content: '';
+        position: absolute;
+        left: -6px;
+        top: 20px;
+        height: 14px;
+        width: 14px;
+        border-radius: 50%;
+        background: var(--bs-primary);
+    }
+
+    /* Contact Form Styles */
+    .form-control:focus {
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Form submission handling
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Submit form using fetch
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Message sent successfully!');
+                    contactForm.reset();
+                } else {
+                    alert('Error sending message. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error sending message. Please try again.');
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

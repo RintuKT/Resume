@@ -1,0 +1,164 @@
+{% extends 'portfolio_app/base.html' %}
+{% load static %}
+{% load portfolio_tags %}
+
+{% block title %}Experience - Rintu KT{% endblock %}
+
+{% block content %}
+<!-- Experience Section -->
+<section class="experience-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Professional Experience</h2>
+        
+        <div class="timeline">
+            {% for exp in experiences %}
+            <div class="timeline-item mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ exp.position }}</h4>
+                        <h5 class="card-subtitle mb-2 text-muted">{{ exp.company }}</h5>
+                        
+                        <div class="mb-3">
+                            <span class="badge bg-primary me-2">
+                                <i class="fas fa-calendar me-1"></i>
+                                {{ exp.start_date|date:"M Y" }} - 
+                                {% if exp.end_date %}
+                                    {{ exp.end_date|date:"M Y" }}
+                                {% else %}
+                                    Present
+                                {% endif %}
+                            </span>
+                            {% if exp.tools %}
+                            <span class="badge bg-secondary">
+                                <i class="fas fa-tools me-1"></i>
+                                {{ exp.tools }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        
+                        <p class="card-text">{{ exp.description }}</p>
+                        
+                        {% if exp.achievements %}
+                        <h6 class="mb-2">Key Achievements:</h6>
+                        <ul class="list-unstyled">
+                            {% for achievement in exp.achievements|split:"," %}
+                            <li class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                {{ achievement }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Get In Touch</h2>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form id="contactForm" class="contact-form" action="{% url 'portfolio_app:contact' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .timeline {
+        position: relative;
+        padding: 0;
+        list-style: none;
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding-left: 3rem;
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background-color: #dee2e6;
+    }
+    
+    .timeline-item::after {
+        content: '';
+        position: absolute;
+        left: -6px;
+        top: 0;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background-color: var(--bs-primary);
+    }
+    
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        transition: transform 0.2s ease-in-out;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .badge {
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+    }
+    
+    .list-unstyled li {
+        position: relative;
+        padding-left: 1.5rem;
+    }
+    
+    .list-unstyled li i {
+        position: absolute;
+        left: 0;
+        top: 0.25rem;
+    }
+
+    .contact-section {
+        background-color: #f8f9fa;
+    }
+
+    .contact-form {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+</style>
+{% endblock %}
