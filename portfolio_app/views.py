@@ -8,7 +8,7 @@ from .models import PersonalDetail, Project, Experience, Skill, Certification, C
 def home(request):
     personal_detail = PersonalDetail.objects.first()
     skills = Skill.objects.all().order_by('category', '-proficiency')
-    certifications = Certification.objects.all().order_by('-end_date')
+    certifications = Certification.objects.all().order_by('end_date')
     context = {
         'personal_detail': personal_detail,
         'skills': skills,
@@ -43,28 +43,56 @@ def experience(request):
 
 def contact(request):
     if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
-        
-        # Save contact message
-        contact = Contact.objects.create(
-            name=name,
-            email=email,
-            message=message
-        )
-        
-        # Send email notification
         try:
-            send_mail(
-                f'New Contact Message from {name}',
-                f'From: {name} <{email}>\n\nMessage:\n{message}',
-                settings.DEFAULT_FROM_EMAIL,
-                [settings.ADMIN_EMAIL],
-                fail_silently=False,
+            # Get form data
+            name = request.POST.get('name', '').strip()
+            email = request.POST.get('email', '').strip()
+            message = request.POST.get('message', '').strip()
+            
+            # Validate form data
+            if not all([name, email, message]):
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Please fill in all required fields.'
+                })
+            
+            # Save to database
+            contact = Contact.objects.create(
+                name=name,
+                email=email,
+                message=message
             )
-            return JsonResponse({'status': 'success'})
+            
+            # Send email
+            try:
+                subject = f'New Contact Message from {name}'
+                body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+                
+                send_mail(
+                    subject,
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.ADMIN_EMAIL],
+                    fail_silently=True  # Changed to True to prevent email errors from breaking the flow
+                )
+            except Exception as e:
+                print(f"Email sending failed: {str(e)}")
+                # Continue even if email fails
+            
+            # Return success response
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Thank you! Your message has been received.'
+            })
+            
         except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)})
+            print(f"Contact form error: {str(e)}")
+            return JsonResponse({
+                'status': 'error',
+                'message': 'An error occurred. Please try again.'
+            })
     
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+    return JsonResponse({
+        'status': 'error',
+        'message': 'Invalid request'
+    })

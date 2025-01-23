@@ -23,24 +23,28 @@
                         <p class="card-text">{{ project.description|truncatewords:30 }}</p>
                         <p class="card-text">
                             <small class="text-muted">
-                                <i class="fas fa-code me-2"></i>{{ project.technology }}
+                                <i class="fas fa-code me-2"></i>{{ project.technologies }}
                             </small>
                         </p>
                     </div>
                     
                     <div class="card-footer bg-transparent border-top-0">
-                        {% if project.github_url %}
-                        <a href="{{ project.github_url }}" class="btn btn-outline-primary me-2" target="_blank">
-                            <i class="fab fa-github me-2"></i>View Code
-                        </a>
-                        {% endif %}
-                        
-                        {% if project.live_url %}
-                        <a href="{{ project.live_url }}" class="btn btn-primary" target="_blank">
-                            <i class="fas fa-external-link-alt me-2"></i>Live Demo
-                        </a>
+                        {% if forloop.first %}
+                            <a href="https://github.com/RintuKT/ISSUE" class="btn btn-outline-primary me-2" target="_blank">
+                                <i class="fab fa-github me-2"></i>View Code
+                            </a>
+                        {% else %}
+                            <a href="https://github.com/RintuKT/Ecom/tree/main/ecomproject" class="btn btn-outline-primary me-2" target="_blank">
+                                <i class="fab fa-github me-2"></i>View Code
+                            </a>
                         {% endif %}
                     </div>
+                    
+                    {% if project.live_url %}
+                    <a href="{{ project.live_url }}" class="btn btn-primary" target="_blank">
+                        <i class="fas fa-external-link-alt me-2"></i>Live Demo
+                    </a>
+                    {% endif %}
                 </div>
             </div>
             {% empty %}

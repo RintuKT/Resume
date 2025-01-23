@@ -11,7 +11,7 @@
                 <p class="lead mb-4">Python Developer | Scrum Master</p>
                 <p class="mb-4">Aspiring Python developer with expertise in building and optimizing E-commerce Web Applications</p>
                 <div class="d-flex gap-3">
-                    <a href="{% url 'portfolio_app:personal_detail' %}" class="btn btn-light btn-lg">View Details</a>
+                    <a href="{% url 'portfolio_app:personal_detail' %}" class="btn btn-outline-light btn-lg">View Details</a>
                     <a href="#contact" class="btn btn-outline-light btn-lg">Contact Me</a>
                 </div>
             </div>
@@ -97,9 +97,9 @@
             <div class="timeline-item">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
-                        <h3 class="h5">Engineering | BTC CET</h3>
-                        <p class="text-muted mb-2">KTU University, Kerala, India | 2015-2019</p>
-                        <p class="mb-0">Bachelor's degree in Mechanical Engineering.</p>
+                        <h3 class="h5">Python Development Training</h3>
+                        <p class="text-muted mb-2">Entri Elevate | 08/2023-10/2024</p>
+                        <p class="mb-0">8 months intensive training on Python, Django, and front-end development.</p>
                     </div>
                 </div>
             </div>
@@ -117,9 +117,9 @@
             <div class="timeline-item">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
-                        <h3 class="h5">Python Development Training</h3>
-                        <p class="text-muted mb-2">Entri Elevate | 08/2023-10/2024</p>
-                        <p class="mb-0">8 months intensive training on Python, Django, and front-end development.</p>
+                        <h3 class="h5">Engineering | BTC CET</h3>
+                        <p class="text-muted mb-2">KTU University, Kerala, India | 2015-2019</p>
+                        <p class="mb-0">Bachelor's degree in Mechanical Engineering.</p>
                     </div>
                 </div>
             </div>
@@ -244,6 +244,52 @@
     }
 </style>
 
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Disable button and show loading state
+        submitButton.disabled = true;
+        const originalButtonText = submitButton.innerHTML;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...';
+        
+        try {
+            const formData = new FormData(this);
+            const response = await fetch('{% url "portfolio_app:contact" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                alert(data.message || 'Message sent successfully!');
+                contactForm.reset();
+            } else {
+                alert(data.message || 'Error sending message. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        } finally {
+            // Re-enable button and restore original text
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalButtonText;
+        }
+    });
+});
+</script>
+{% endblock %}
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Smooth scroll for anchor links
@@ -255,39 +301,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-
-    // Form submission handling
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            
-            // Submit form using fetch
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Message sent successfully!');
-                    contactForm.reset();
-                } else {
-                    alert('Error sending message. Please try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error sending message. Please try again.');
-            });
-        });
-    }
 });
 </script>
 {% endblock %}

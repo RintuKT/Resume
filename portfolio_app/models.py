@@ -19,6 +19,7 @@ class Project(models.Model):
     description = models.TextField()
     key_features = models.TextField()
     technologies = models.CharField(max_length=200)
+    project_link = models.URLField(blank=True, null=True)  # New field for project link
     github_link = models.URLField()
     image = models.ImageField(upload_to='project_images/', null=True, blank=True)
     order = models.IntegerField(default=0)
@@ -77,7 +78,6 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.name
-
 class Contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
